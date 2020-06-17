@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+
+  {% if not object.pk %}
+    Nuevo Proyecto
+  {% else %}
+    Editar Proyecto
+  {% endif %}
+
+{% endblock title %}
+
+{% block custom_style %}
+
+<style>
+    .leaflet-container {  /* all maps */
+        /*width:  600px;*/
+        height: 600px;
+    }
+</style>
+
+{% endblock custom_style %}
+
+{% block page_css_datepicker %}
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css" />
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="row">
+  <div class="col col-md-6 col-sm-12">
+    <div class="page-header">
+      <h1>
+          {% if not object.pk %}
+            Nuevo Proyecto
+          {% else %}
+            Editar Proyecto
+          {% endif %}
+      </h1>
+    </div>
+  </div>
+</div>
+
+
+<form class="form-horizontal" method="post">
+{% csrf_token %}
+<div class="row">
+  <div class="col-lg-10 col-md-12 col-sm-12">
+    {{form.nombre | as_crispy_field }}
+  </div>
+  <div class="col-lg-2 col-md-12 col-sm-12">
+    {{form.snip | as_crispy_field }}
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-sm-12 col-lg-6">
+    {{form.entidad | as_crispy_field }}
+  </div>
+  <div class="col-md-6 col-sm-12 col-lg-6">
+    {{form.contratista | as_crispy_field }}
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-sm-12 col-lg-6">
+    {{form.supervisor | as_crispy_field }}
+  </div>
+  <div class="col-md-6 col-sm-12 col-lg-6">
+    {{form.residente | as_crispy_field }}
+  </div> 
+</div>
+
+<div class="row">
+  <div class="col-md-4 col-sm-6">
+    {{form.modalidad_ejecucion | as_crispy_field }}
+  </div>
+  <div class="col-md-4 col-sm-6">
+    {{form.sector_financiamiento | as_crispy_field }}
+  </div>
+  <div class="col-md-4 col-sm-6">
+    {{form.estado_obra | as_crispy_field }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    {{form.localidad | as_crispy_field }}
+  </div>
+  <div class="col-md-6">
+    {{form.fecha_inicio | as_crispy_field }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    {{form.geom | as_crispy_field }}
+  </div>
+</div>
+
+
+
+<div class="pb-5">
+  <a href="javascript:history.back()" class="btn btn-default">Cancelar</a>
+      {% if not object.pk %}
+  <button type="submit" class="btn btn-primary">
+        Crear Proyecto
+  </button>
+      {% else %}
+  <button type="submit" class="btn btn-primary">
+        Actualizar Proyecto
+  </button>
+  <a class="btn btn-danger float-right" data-method="delete" href="{% url 'delete_proyecto' proyecto.id %}">Eliminar Proyecto</a>
+      {% endif %}
+  
+</div>
+</form>
+{% endblock %}
+
+{% block page_js_datepicker %}
+  <script type="text/javascript">
+
+          $('#id_fecha_inicio').datetimepicker({
+            format: 'DD/MM/YYYY',
+            // format: 'DD/MM/YYYY - hh:mm a',
+            widgetPositioning:{
+                                horizontal: 'auto',
+                                vertical: 'auto'
+                            },
+            sideBySide: true,
+            locale:'es'
+          });
+
+  </script>
+{% endblock %}

@@ -1,0 +1,182 @@
+{% load static %}
+
+{% load leaflet_tags %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{% block title %}{% endblock title %} - Yosh </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <!-- FAVICON -->
+<!--   <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="icon" href="{% static 'favicon.ico' %}"> 
+  <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/> -->
+
+<style type="text/css">
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+main {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+body > .container {
+  padding: 60px 15px 0;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+  /*.container { height: 480px; }*/
+</style>
+
+  {% block custom_style %}
+  {% endblock custom_style %}
+
+  <!-- CSS -->
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- Leaflet CSS and JS -->
+<!--   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+  crossorigin=""></script> -->
+
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- JQuery JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+  <!-- MOMENTUM - JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+
+
+  <!-- CHARJS - JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+  <!-- CHARJS - CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet" type="text/css">
+
+  {% block Leaflet_init %}
+  {% endblock %}
+
+  {% leaflet_js  plugins="ALL" %}
+  {% leaflet_css plugins="ALL" %}
+
+  {% block page_css_datepicker %}
+  {% endblock %}
+
+  {{ form.media }}
+</head>
+
+<body>
+<nav class="mb-1 navbar navbar-expand-sm navbar-light fixed-top bg-light">
+<div class="container">
+    <a class="navbar-brand" href="/">Yosh</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+    aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Inicio
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="">Produccion</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="">Calidad</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+      {% if request.user.is_authenticated %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-user"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right dropdown-default"
+      aria-labelledby="navbarDropdownMenuLink-333">
+      <a class="dropdown-item" href="#">Cambiar contraseña</a>
+      <a class="dropdown-item" href="#">Salir</a>
+    </div>
+  </li>
+  {% else %}
+  <a class="btn btn-primary" href="#">Inicie Sesion</a>
+  {% endif %}
+</ul>
+</div>
+</div>
+
+</nav>
+
+<script>
+$(document).ready(function() {
+  $('li.active').removeClass('active');
+  $('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 
+});
+</script>
+
+<main role="main" class="container">
+
+  {% block content %}
+
+
+  {% endblock content %}
+
+</main><!-- /.container -->
+
+    <footer class="footer">
+      <div class="container small text-center">
+        <span class="text-muted">Copyright © 2020 - Geoportal Casuarinas - Elaborado por <a href="https://github.com/YecoG23" class="text-info">yEco</a></span>
+      </div>
+    </footer>
+
+
+<!-- Bootstrap core JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+  {% block page_js_datepicker %}
+  {% endblock %}
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load geojson_tags %}
+{% load leaflet_tags %}
+
+{% block title %}Inicio{% endblock title %}
+
+{% block custom_style %}
+
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+ -->
+<style>
+        .leaflet-container {  /* all maps */
+        height: 500px;
+    }
+</style>
+
+{% endblock custom_style %}
+
+{% block Leaflet_init %}
+
+<!--   <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
+ -->
+  <script>
+    var collection = {{ list_buzones|geojsonfeature|safe }};
+    function main_map_init(map, options){
+        L.geoJson(collection).addTo(map);
+        console.log("map crs: " + map.options.crs.code);
+        map.on("contextmenu", function (event) {
+          console.log("user right-clicked on map coordinates: " + event.latlng.toString());
+          // L.marker(event.latlng).addTo(map);
+        });
+    }
+
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+
+    {% leaflet_map "main" callback="main_map_init" %}
+
+</div>
+
+
+
+{% endblock %}
